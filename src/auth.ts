@@ -15,8 +15,7 @@ const auth = async (ctx: any, next: any) => {
         return;
     }
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log(decoded);
+        const decoded = await jwt.verify(token, process.env.JWT_SECRET);
         ctx.state.user = decoded.user;
     } catch (err) {
         ctx.status = 401;
