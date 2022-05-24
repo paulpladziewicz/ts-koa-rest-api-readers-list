@@ -7,7 +7,6 @@ import json from 'koa-json';
 import koaBody from 'koa-body';
 import axios from 'axios';
 import jwt from "jsonwebtoken";
-// @ts-ignore
 import connectDB from './config/db';
 import auth from './auth'
 import User from './models/User';
@@ -17,7 +16,6 @@ const router = new Router();
 app.use(json());
 app.use(koaBody());
 
-// Connect Database
 connectDB();
 
 // Error handling
@@ -42,9 +40,9 @@ router.get('/nytimes-bestsellers', async (ctx) => {
 
 // Check to see if token is still good.
 router.get('/user', auth, async (ctx: any) => {
-    const user = ctx.state.user;
+    const userId = ctx.state.userId;
     ctx.body = {
-        user
+        userId
     };
 });
 
@@ -68,7 +66,7 @@ router.post('/login', async (ctx) => {
     }
     const token = jwt.sign({
         userId: user.id,
-    }, process.env.JWT_SECRET);
+    }, process.env.JWT_SECRET as string);
 
     user = {
         userId: user.id,
@@ -111,7 +109,7 @@ router.post('/register', async (ctx) => {
 
     const token = jwt.sign({
         user
-    }, process.env.JWT_SECRET, {
+    }, process.env.JWT_SECRET as string, {
         expiresIn: '1h'
     });
 
