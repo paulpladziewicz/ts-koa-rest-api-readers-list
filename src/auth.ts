@@ -7,7 +7,7 @@ interface DecodedPayload {
 
 const auth = async (ctx: any, next: any) => {
   if (!ctx.request.header.authorization) {
-    ctx.throw(401, 'No authorization header');
+    return ctx.throw(401, 'No authorization header');
   }
   // Removing 'Bearer ' portion of header auth
   let token = ctx.header.authorization.substring(7);
