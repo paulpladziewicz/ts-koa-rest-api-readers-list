@@ -6,7 +6,7 @@ phases:
             nodejs: latest
         commands:
             - echo "installing something"
-            - - npm install
+            - npm install
     pre_build:
         commands: 
             - echo "we are in the pre build phase"
