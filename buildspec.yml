@@ -6,15 +6,16 @@ phases:
             nodejs: latest
         commands:
             - echo "installing something"
+            - - npm install
     pre_build:
         commands: 
             - echo "we are in the pre build phase"
-            - npm install
+            - npm run test
+
     build:
         commands:
             - echo "we are in the build block"
             - npm run build
     post_build:
         commands:
-            - npm run start
-            
+            - echo "we are in the post build phase"
