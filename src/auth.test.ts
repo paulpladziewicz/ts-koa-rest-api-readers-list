@@ -9,4 +9,9 @@ describe('auth middleware',() => {
 
         expect(ctx.throw).toBeCalledWith(401, 'No authorization header');
     });
+
+    it('should fail', async () => {
+        let a = 1 + 1;
+        expect(a).toBe(3);
+    });
 });
