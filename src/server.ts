@@ -1,24 +1,19 @@
 import dotEnv from 'dotenv';
 dotEnv.config();
 import Koa from 'koa';
-import Router from 'koa-router';
 import cors from '@koa/cors';
 import json from 'koa-json';
 import koaBody from 'koa-body';
-import axios from 'axios';
-import jwt from 'jsonwebtoken';
 import connectDB from './config/db';
-import auth from './auth';
-import User from './models/User';
+import apiRouter from './routes/apiRouter';
 
 const app = new Koa();
-const router = new Router();
 app.use(json());
 app.use(koaBody());
 
 connectDB();
 
-// Error handling
+// Fallback Error Handling
 app.use(async (ctx, next) => {
   try {
     await next();
@@ -30,106 +25,8 @@ app.use(async (ctx, next) => {
   }
 });
 
-// Homepage Swiper Jumbotron endpoint
-router.get('/nytimes-bestsellers', async (ctx) => {
-  const { data } = await axios.get(
-    `https://api.nytimes.com/svc/books/v3/lists/combined-print-and-e-book-nonfiction.json?api-key=${process.env.NYTIMES_API_KEY}`
-  );
-  ctx.body = data;
-});
-
-// Check to see if token is still good.
-router.get('/user', auth, async (ctx: any) => {
-  const userId = ctx.state.userId;
-  ctx.body = {
-    userId
-  };
-});
-
-router.post('/login', async (ctx) => {
-  const { email, password } = ctx.request.body;
-  let user = await User.findOne({ email });
-  if (!user) {
-    ctx.status = 401;
-    ctx.body = {
-      error: 'Invalid email or password'
-    };
-    return;
-  }
-  const isMatch = password === user.password;
-  if (!isMatch) {
-    ctx.status = 401;
-    ctx.body = {
-      error: 'Invalid email or password'
-    };
-    return;
-  }
-  const token = jwt.sign(
-    {
-      userId: user.id
-    },
-    process.env.JWT_SECRET as string
-  );
-
-  user = {
-    userId: user.id,
-    first_name: user.first_name,
-    last_name: user.last_name
-  };
-
-  ctx.body = {
-    user,
-    token
-  };
-});
-
-router.post('/register', async (ctx) => {
-  const { first_name, last_name, email, password }: any = ctx.request.body;
-
-  let user = await User.findOne({ email });
-  if (user) {
-    ctx.status = 400;
-    ctx.body = {
-      error: 'User already exists'
-    };
-    return;
-  }
-
-  const newUser = new User({
-    first_name,
-    last_name,
-    email,
-    password
-  });
-
-  await newUser.save();
-
-  user = {
-    userId: newUser.id,
-    first_name,
-    last_name
-  };
-
-  const token = jwt.sign(
-    {
-      user
-    },
-    process.env.JWT_SECRET as string,
-    {
-      expiresIn: '1h'
-    }
-  );
-
-  ctx.status = 201;
-  ctx.body = {
-    message: 'new user made',
-    user,
-    token
-  };
-});
-
+app.use(apiRouter.routes()).use(apiRouter.allowedMethods());
 app.use(cors({ origin: '*' }));
-app.use(router.routes()).use(router.allowedMethods());
 
 app.listen(process.env.PORT || 5003, () =>
   console.log('Server running on port 5003.')
