@@ -4,7 +4,7 @@ import authRouter from './authentication'
 import nytimesRouter from './nytimes'
 
 // not sure if { prefix: '/api' } option will be needed yet
-const apiRouter = new Router();
+const apiRouter = new Router({ prefix: '/api' });
 
 const nestedRoutes = [authRouter, nytimesRouter]
 for (let router of nestedRoutes) {
