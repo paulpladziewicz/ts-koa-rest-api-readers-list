@@ -1,3 +1,3 @@
 #!/bin/bash
 # this might not be needed
-pm2 start /home/ec2-user/api/build/server.js
+pm2 start /home/ec2-user/api/build/server.js --watch
