@@ -1,1 +1,3 @@
 #!/bin/bash
+# this might not be needed
+pm2 stop server
