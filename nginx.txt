@@ -4,8 +4,14 @@ server {
     server_name freereaderslist.com www.freereaderslist.com;
     access_log /var/log/nginx/freereaderslist.com.log;
 
+    location / {
+      root /usr/share/nginx/html/dist/;
+      index index.html;
+      try_files $uri $uri/ /index.html;
+    }
+
     location /api/ {
-      proxy_pass 127.0.0.1:5003;
+      proxy_pass http://127.0.0.1:5003;
       proxy_set_header Host $http_host;
       proxy_set_header X-Real-IP $remote_addr;
     }
