@@ -18,3 +18,10 @@ chmod +x ./install
 ./install auto
 mkdir api
 npm install pm2 -g
+systemctl stop nginx
+wget -r --no-parent -A 'epel-release-*.rpm' https://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/
+rpm -Uvh dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-*.rpm
+yum-config-manager --enable epel*
+yum install -y certbot
+yum install -y python-certbot-nginx
+systemctl start nginx

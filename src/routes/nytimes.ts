@@ -10,8 +10,4 @@ nytimesRouter.get('/nytimes-bestsellers', async (ctx) => {
     ctx.body = data;
 });
 
-nytimesRouter.get('/', async (ctx) => {
-    ctx.body = 'worked';
-});
-
 export default nytimesRouter;
