@@ -5,7 +5,7 @@ import cors from '@koa/cors';
 import json from 'koa-json';
 import koaBody from 'koa-body';
 import connectDB from './config/db';
-import apiRouter from './routes/apiRouter';
+import router from './middleware/router';
 
 const app = new Koa();
 app.use(json());
@@ -29,7 +29,7 @@ app.use(async (ctx, next) => {
   }
 });
 
-app.use(apiRouter.routes()).use(apiRouter.allowedMethods());
+app.use(router.routes()).use(router.allowedMethods());
 
 app.listen(process.env.PORT || 5003, () =>
   console.log('Server running on port 5003.')
