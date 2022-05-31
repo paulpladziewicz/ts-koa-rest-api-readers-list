@@ -11,6 +11,10 @@ const app = new Koa();
 app.use(json());
 app.use(koaBody());
 
+if (process.env.NODE_ENV === 'development') {
+  app.use(cors({ origin: '*' }));
+}
+
 connectDB();
 
 // Fallback Error Handling
@@ -26,7 +30,6 @@ app.use(async (ctx, next) => {
 });
 
 app.use(apiRouter.routes()).use(apiRouter.allowedMethods());
-app.use(cors({ origin: '*' }));
 
 app.listen(process.env.PORT || 5003, () =>
   console.log('Server running on port 5003.')
