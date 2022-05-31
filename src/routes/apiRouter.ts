@@ -7,7 +7,7 @@ import nytimesRouter from './nytimes';
 const apiRouter = new Router({ prefix: '/api' });
 
 apiRouter.get('/', async (ctx) => {
-  ctx.body = { message: 'Readers List API is healthy.' };
+  ctx.body = { message: 'Readers List API is healthy. Hello' };
 });
 
 const nestedRoutes = [authRouter, nytimesRouter];
