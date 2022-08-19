@@ -19,10 +19,11 @@ const nytimesListNames = {
 
 export default {
   async bestSellers(ctx: any) {
-    const { listName } = ctx.request.body;
+    const { listName } = ctx.request.query;
     const { data } = await axios.get(
       `https://api.nytimes.com/svc/books/v3/lists/${listName}.json?api-key=${process.env.NYTIMES_API_KEY}`
     );
+    console.log(data);
     ctx.body = data;
   }
 };

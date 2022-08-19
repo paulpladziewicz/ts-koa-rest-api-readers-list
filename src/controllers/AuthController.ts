@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-const User = require('../models/User');
+import User from '../models/User';
 const bcrypt = require('bcrypt');
 const BCRYPT_SALT_ROUNDS = 12;
 
