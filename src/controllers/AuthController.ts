@@ -60,7 +60,7 @@ export default {
       return;
     }
 
-    const newUser = new User({
+    let newUser = new User({
       first_name,
       last_name,
       email,
@@ -68,6 +68,8 @@ export default {
     });
 
     await newUser.save();
+
+    newUser = await User.findOne({ email });
 
     user = {
       userId: newUser.id,
@@ -77,7 +79,7 @@ export default {
 
     const token = jwt.sign(
       {
-        user
+        userId: newUser.id
       },
       process.env.JWT_SECRET as string,
       {
