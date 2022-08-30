@@ -1,8 +1,8 @@
 import Router from 'koa-router';
 import auth from './auth';
 import AuthController from '../controllers/AuthController';
-import NYTimesController from "../controllers/NYTimesController";
-import ListController from "../controllers/ListController";
+import NYTimesController from '../controllers/NYTimesController';
+import ListController from '../controllers/ListController';
 
 const router = new Router({ prefix: '/api' });
 
@@ -15,13 +15,12 @@ router
   .post('/login', AuthController.login)
   .post('/register', AuthController.register);
 
-router
-    .get('/nytimes-bestsellers', auth, NYTimesController.bestSellers);
+router.get('/nytimes-bestsellers', auth, NYTimesController.bestSellers);
 
 router
-    .get('/booklist', auth, ListController.getAllBooksByUserId)
-    .post('/booklist', auth, ListController.addBookToList)
-    .put('/booklist/:bookId', auth, ListController.updateBookOnList)
-    .delete('/booklist/:bookId', auth, ListController.deleteBookOnList)
+  .get('/booklist', auth, ListController.getAllBooksByUserId)
+  .post('/booklist', auth, ListController.addBookToList)
+  .put('/booklist/:bookId', auth, ListController.updateBookOnList)
+  .delete('/booklist/:bookId', auth, ListController.deleteBookOnList);
 
 export default router;

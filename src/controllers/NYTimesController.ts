@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Book from "../models/Book";
+import Book from '../models/Book';
 
 export default {
   async bestSellers(ctx: any) {
@@ -7,7 +7,9 @@ export default {
     const { data } = await axios.get(
       `https://api.nytimes.com/svc/books/v3/lists/${listName}.json?api-key=${process.env.NYTIMES_API_KEY}`
     );
-    const currentUserBookListArray = await Book.find({user_id: ctx.state.userId});
+    const currentUserBookListArray = await Book.find({
+      user_id: ctx.state.userId
+    });
 
     let userBookListTitles = {};
     for (let bookOnUserList of currentUserBookListArray) {
