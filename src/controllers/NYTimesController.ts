@@ -1,21 +1,5 @@
 import axios from 'axios';
-
-const nytimesListNames = {
-  COMBINED_PRINT_AND_E_BOOK_NONFICTION: 'combined-print-and-e-book-nonfiction',
-  B: 'hardcover-fiction',
-  C: 'hardcover-nonfiction',
-  D: 'trade-fiction-paperback',
-  E: 'mass-market-paperback',
-  F: 'paperback-nonfiction',
-  G: 'e-book-fiction',
-  H: 'e-book-nonfiction',
-  I: 'hardcover-advice',
-  J: 'paperback-advice',
-  K: 'advice-how-to-and-miscellaneous',
-  L: 'hardcover-graphic-books',
-  d: 'paperback-graphic-books',
-  MANGA: 'manga'
-};
+import Book from "../models/Book";
 
 export default {
   async bestSellers(ctx: any) {
@@ -23,7 +7,23 @@ export default {
     const { data } = await axios.get(
       `https://api.nytimes.com/svc/books/v3/lists/${listName}.json?api-key=${process.env.NYTIMES_API_KEY}`
     );
-    console.log(data);
+    const currentUserBookListArray = await Book.find({user_id: ctx.state.userId});
+
+    let userBookListTitles = {};
+    for (let bookOnUserList of currentUserBookListArray) {
+      // @ts-ignore
+      userBookListTitles[bookOnUserList.title] = true;
+    }
+
+    for (let nyBook of data.results.books) {
+      // @ts-ignore
+      if (userBookListTitles[nyBook.title]) {
+        nyBook.onList = true;
+        continue;
+      }
+      nyBook.onList = false;
+    }
+
     ctx.body = data;
   }
 };

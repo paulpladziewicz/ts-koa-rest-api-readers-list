@@ -16,7 +16,7 @@ router
   .post('/register', AuthController.register);
 
 router
-    .get('/nytimes-bestsellers', NYTimesController.bestSellers);
+    .get('/nytimes-bestsellers', auth, NYTimesController.bestSellers);
 
 router
     .get('/booklist', auth, ListController.getAllBooksByUserId)
