@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import Koa from "koa";
+import Koa from 'koa';
 
 interface DecodedPayload {
   userId: string;

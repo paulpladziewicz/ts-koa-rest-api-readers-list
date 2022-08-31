@@ -1,3 +1,3 @@
 export interface UserBookListItemInterface {
-    title: string;
+  title: string;
 }

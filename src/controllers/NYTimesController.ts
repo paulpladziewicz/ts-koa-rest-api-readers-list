@@ -1,9 +1,9 @@
-import Koa from "koa";
+import Koa from 'koa';
 import axios from 'axios';
 import Book from '../models/Book';
-import {UserBookListInterface} from "../types/UserBookListInterface";
-import {UserBookListItemInterface} from "../types/UserBookListItemInterface";
-import {NYTimesBookItemInterface} from "../types/NYTimesBookItemInterface";
+import { UserBookListInterface } from '../types/UserBookListInterface';
+import { UserBookListItemInterface } from '../types/UserBookListItemInterface';
+import { NYTimesBookItemInterface } from '../types/NYTimesBookItemInterface';
 
 export default {
   async bestSellers(ctx: Koa.Context) {
@@ -17,7 +17,9 @@ export default {
 
     let userBookListTitles: UserBookListInterface = {};
     for (let bookOnUserList of currentUserBookListArray) {
-      userBookListTitles[bookOnUserList.title as keyof UserBookListItemInterface] = true;
+      userBookListTitles[
+        bookOnUserList.title as keyof UserBookListItemInterface
+      ] = true;
     }
 
     for (let nyBook of data.results.books) {

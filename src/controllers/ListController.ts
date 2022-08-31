@@ -1,4 +1,4 @@
-import Koa from "koa";
+import Koa from 'koa';
 import Book from '../models/Book';
 
 export default {

@@ -1,4 +1,4 @@
-import Koa from "koa";
+import Koa from 'koa';
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
 

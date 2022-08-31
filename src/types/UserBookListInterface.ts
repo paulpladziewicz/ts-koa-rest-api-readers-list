@@ -1,3 +1,3 @@
 export interface UserBookListInterface {
-    title?: boolean;
+  title?: boolean;
 }

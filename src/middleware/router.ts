@@ -1,4 +1,4 @@
-import Koa from "koa";
+import Koa from 'koa';
 import Router from 'koa-router';
 import auth from './auth';
 import AuthController from '../controllers/AuthController';

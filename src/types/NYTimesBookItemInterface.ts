@@ -1,3 +1,3 @@
 export interface NYTimesBookItemInterface {
-    title: string;
+  title: string;
 }
