@@ -1,17 +1,16 @@
+import Koa from "koa";
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
-const bcrypt = require('bcrypt');
-const BCRYPT_SALT_ROUNDS = 12;
 
 export default {
-  async user(ctx: any) {
+  async user(ctx: Koa.Context) {
     const userId = ctx.state.userId;
     ctx.body = {
       userId
     };
   },
 
-  async login(ctx: any) {
+  async login(ctx: Koa.Context) {
     const { email, password } = ctx.request.body;
     let user = await User.findOne({ email });
     if (!user) {
@@ -48,7 +47,7 @@ export default {
     };
   },
 
-  async register(ctx: any) {
+  async register(ctx: Koa.Context) {
     const { first_name, last_name, email, password }: any = ctx.request.body;
 
     let user = await User.findOne({ email });

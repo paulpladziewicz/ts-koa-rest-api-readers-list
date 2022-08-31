@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === 'development') {
 connectDB();
 
 // Fallback Error Handling
-app.use(async (ctx, next) => {
+app.use(async (ctx: Koa.Context, next: Function) => {
   try {
     await next();
   } catch (err: any) {

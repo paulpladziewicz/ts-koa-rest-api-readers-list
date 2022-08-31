@@ -1,10 +1,11 @@
+import Koa from "koa";
 import Book from '../models/Book';
 
 export default {
-  async getAllBooksByUserId(ctx: any) {
+  async getAllBooksByUserId(ctx: Koa.Context) {
     ctx.body = await Book.find({ user_id: ctx.state.userId });
   },
-  async addBookToList(ctx: any) {
+  async addBookToList(ctx: Koa.Context) {
     const { title, author, currentPage }: any = ctx.request.body;
 
     const newBook = new Book({
@@ -18,7 +19,7 @@ export default {
 
     return (ctx.status = 201);
   },
-  async updateBookOnList(ctx: any) {
+  async updateBookOnList(ctx: Koa.Context) {
     const { bookId }: any = ctx.params;
     const { title, author, currentPage }: any = ctx.request.body;
     const book = await Book.findById(bookId);
@@ -28,7 +29,7 @@ export default {
     await book.save();
     ctx.status = 200;
   },
-  async deleteBookOnList(ctx: any) {
+  async deleteBookOnList(ctx: Koa.Context) {
     const { bookId }: any = ctx.params;
     ctx.body = await Book.deleteOne({ _id: bookId });
   }

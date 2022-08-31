@@ -1,8 +1,12 @@
+import Koa from "koa";
 import axios from 'axios';
 import Book from '../models/Book';
+import {UserBookListInterface} from "../types/UserBookListInterface";
+import {UserBookListItemInterface} from "../types/UserBookListItemInterface";
+import {NYTimesBookItemInterface} from "../types/NYTimesBookItemInterface";
 
 export default {
-  async bestSellers(ctx: any) {
+  async bestSellers(ctx: Koa.Context) {
     const { listName } = ctx.request.query;
     const { data } = await axios.get(
       `https://api.nytimes.com/svc/books/v3/lists/${listName}.json?api-key=${process.env.NYTIMES_API_KEY}`
@@ -11,15 +15,13 @@ export default {
       user_id: ctx.state.userId
     });
 
-    let userBookListTitles = {};
+    let userBookListTitles: UserBookListInterface = {};
     for (let bookOnUserList of currentUserBookListArray) {
-      // @ts-ignore
-      userBookListTitles[bookOnUserList.title] = true;
+      userBookListTitles[bookOnUserList.title as keyof UserBookListItemInterface] = true;
     }
 
     for (let nyBook of data.results.books) {
-      // @ts-ignore
-      if (userBookListTitles[nyBook.title]) {
+      if (userBookListTitles[nyBook.title as keyof NYTimesBookItemInterface]) {
         nyBook.onList = true;
         continue;
       }

@@ -1,3 +1,4 @@
+import Koa from "koa";
 import Router from 'koa-router';
 import auth from './auth';
 import AuthController from '../controllers/AuthController';
@@ -6,7 +7,7 @@ import ListController from '../controllers/ListController';
 
 const router = new Router({ prefix: '/api' });
 
-router.get('/', async (ctx) => {
+router.get('/', async (ctx: Koa.Context) => {
   ctx.body = { message: 'Readers List API is healthy.' };
 });
 
